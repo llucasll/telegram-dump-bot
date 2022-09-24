@@ -1,5 +1,6 @@
 import { Update } from 'typegram';
 
+import { mdJson } from './utils.js';
 import bot from './bot.js';
 
 bot.on('update', async (update: Update) => {
@@ -12,7 +13,7 @@ bot.on('update', async (update: Update) => {
 	
 	await bot.sendMessage({
 		chat_id: message.chat.id,
-		text: '```json\n' + JSON.stringify(message, null, 4) + '```',
+		text: mdJson(message),
 		parse_mode: 'MarkdownV2',
 		reply_to_message_id: message.message_id,
 	});

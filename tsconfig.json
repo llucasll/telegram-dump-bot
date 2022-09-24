@@ -20,6 +20,8 @@
 		"allowSyntheticDefaultImports": true,
 		"esModuleInterop": true,
 		
+		"baseUrl": "src",
+		
 		"incremental": true,
 		
 		"lib": [

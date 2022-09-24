@@ -1,48 +1,19 @@
-import fs from 'node:fs';
 import process from 'node:process';
-import os from 'node:os';
 
-// @ts-ignore
 import TelegramBot from 'telegram-bot-api';
 import { Telegram } from 'typegram';
 import fetch from 'node-fetch';
-import * as dotenv from 'dotenv';
 
+import './environment.js';
 import { sleep } from './utils.js';
 
-const possiblyPaths = [
-	'.env',
-	'../.env',
-	os.homedir() + '/bot.env',
-];
-const path = possiblyPaths.find(path => fs.existsSync(path));
-if (!path) {
-	console.error('Environment file not provided at `./.env`, `../.env` or `~/bot.env` (this precedence order)');
-	process.exit(1);
-}
-dotenv.config({ path });
-
-const apiUrl = 'https://api.telegram.org';
-
-type Methods = {
-	[Property in keyof Telegram]: Telegram[Property] extends Function
-		? (...args: Parameters<Telegram[Property]>) =>
-			Promise<ReturnType<Telegram[Property]>>
-		: Telegram[Property]
-} & {
-	// TODO
-	on (eventName: string, handler: Function): unknown,
-	start (): Promise<void>,
-	// TODO
-	setMessageProvider (provider: unknown): void,
-}
-
-export const token = process.env.telegramToken;
+export const apiUrl = process.env.apiUrl ?? 'https://api.telegram.org';
+export const token = process.env.telegramToken!;
 
 const bot = new TelegramBot({
 	token,
 	baseUrl: apiUrl,
-}) as Methods;
+});
 bot.setMessageProvider(new TelegramBot.GetUpdateMessageProvider());
 
 const errorCodes = {
@@ -89,7 +60,7 @@ async function callApi
 export default new Proxy(
 	bot,
 	{
-		get <T extends keyof Telegram> (target: Methods, key: T) {
+		get <T extends keyof Telegram> (target: TelegramBot, key: T) {
 			if ([ 'on', 'start', 'setMessageProvider' ].includes(key))
 				// @ts-ignore
 				return (...args: unknown[]) => target[key](...args);
