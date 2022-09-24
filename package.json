@@ -1,0 +1,38 @@
+{
+	"name": "telegram-dump-bot",
+	"version": "1.0.0",
+	"description": "The simplest TypeScript/NodeJS Telegram bot implementation to dump a Message Update as raw JSON (in a reply message)",
+	"type": "module",
+	"scripts": {
+		"start": "nodemon --watch 'src/**/*' --watch .env --ext ts,json --exec npm run prod",
+		"prod": "npx ts-node --esm src/index.ts",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"keywords": [
+		"telegram",
+		"bot",
+		"json",
+		"dump"
+	],
+	"author": {
+		"name": "Lucas Camilo",
+		"email": "llucasll.k@hotmail.com",
+		"url": "https://t.me/llucasll"
+	},
+	"license": "ISC",
+	"dependencies": {
+		"dotenv": "^16.0.2",
+		"node-fetch": "^3.2.10",
+		"nodemon": "^2.0.19",
+		"telegram-bot-api": "^2.0.1",
+		"ts-node": "^10.9.1",
+		"typegram": "^3.11.0",
+		"typescript": "^4.8.2"
+	},
+	"engines": {
+		"node": ">=16"
+	},
+	"os": [
+		"linux"
+	]
+}
