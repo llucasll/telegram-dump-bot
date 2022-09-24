@@ -16,6 +16,10 @@ const possiblyPaths = [
 	os.homedir() + '/bot.env',
 ];
 const path = possiblyPaths.find(path => fs.existsSync(path));
+if (!path) {
+	console.error('Environment file not provided at `./.env`, `../.env` or `~/bot.env` (this precedence order)');
+	process.exit(1);
+}
 dotenv.config({ path });
 
 const apiUrl = 'https://api.telegram.org';
